@@ -1,11 +1,13 @@
 package com.generation20.parsonajesapi.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.generation20.parsonajesapi.dao.PersonajeRepository;
+import com.generation20.parsonajesapi.error.PersonajeNotFoundException;
 import com.generation20.parsonajesapi.molde.Personaje;
 @Service
 public class PersonajeServiceImpl implements PersonajeService{
@@ -22,16 +24,16 @@ private PersonajeRepository repository;
 		return repository.findAll();
 	}
 	@Override
-	public Personaje getById(Integer id) {
-		return repository.findById(id).get();
+	public Optional<Personaje> getById(Integer id) {
+		return repository.findById(id);
 	}
 	@Override
 	public Personaje update(Integer id, Personaje personaje) {
-		Personaje personajeDB = getById(id);
+		Personaje personajeDB = getById(id).orElseThrow(() -> new PersonajeNotFoundException(id));
 		personajeDB.setNombre(personaje.getNombre());
 		personajeDB.setAparicion(personaje.getAparicion());
 		personajeDB.setTipo(personaje.getTipo());
-		return repository.save(personaje);
+		return repository.save(personajeDB);
 	}
 	public void remove(Integer id) {
 		repository.deleteById(id);

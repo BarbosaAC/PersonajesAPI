@@ -1,9 +1,12 @@
 package com.generation20.parsonajesapi.molde;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -16,6 +19,9 @@ public class Personaje {
 	private String nombre;
 	private String aparicion;
 	private String tipo;
+	
+	@OneToMany (mappedBy = "personaje")
+	private List<Caracteristica> caracteristicas;
 	
 	public Personaje() {}
 	
