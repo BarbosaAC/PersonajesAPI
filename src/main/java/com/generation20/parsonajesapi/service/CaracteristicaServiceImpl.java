@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.generation20.parsonajesapi.dao.CaracteristicaRepository;
-import com.generation20.parsonajesapi.dao.PersonajeRepository;
 import com.generation20.parsonajesapi.molde.Caracteristica;
 import com.generation20.parsonajesapi.molde.Personaje;
 
@@ -17,8 +16,6 @@ public class CaracteristicaServiceImpl implements CaracteristicaService{
 
 	@Autowired
 	private CaracteristicaRepository repository;
-	@Autowired
-	private PersonajeRepository personajeRepository;
 	
 	@Override
 	public List<Caracteristica> getAll(){
