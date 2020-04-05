@@ -1,14 +1,14 @@
 package com.generation20.parsonajesapi.molde;
 
-import java.sql.Date;
+
+
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,11 +18,9 @@ import javax.persistence.TemporalType;
 public class Caracteristica {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@ManyToOne
-	@JoinColumn(name = "id_personaje", nullable =false)
-	private Personaje personaje;
+
 	
 	@Column (length = 50, nullable = false)
 	private String nombre;
@@ -34,7 +32,37 @@ public class Caracteristica {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaCreacion;
 	
+	//@JoinColumn(name = "id_personaje", nullable =false)
+	//private Personaje personaje;
+	private Integer idPersonaje;
 	public Caracteristica () {}
+	
+	
+
+	public Integer getPersonaje() {
+		return idPersonaje;
+	}
+
+
+
+	public void setPersonaje(Integer IdPersonaje) {
+		this.idPersonaje = IdPersonaje;
+	}
+
+
+
+	public Caracteristica(Integer id, Integer idPersonaje, String nombre, String valor, String tipo,
+			Date fechaCreacion) {
+		super();
+		this.id = id;
+		this.idPersonaje = idPersonaje;
+		this.nombre = nombre;
+		this.valor = valor;
+		this.tipo = tipo;
+		this.fechaCreacion = fechaCreacion;
+	}
+
+
 
 	public Caracteristica(Integer id, String nombre, String valor, String tipo, Date fechaCreacion) {
 		super();

@@ -2,10 +2,13 @@ package com.generation20.parsonajesapi.molde;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -20,11 +23,33 @@ public class Personaje {
 	private String aparicion;
 	private String tipo;
 	
-	@OneToMany (mappedBy = "personaje")
+	//@OneToMany (mappedBy = "personaje")
+	@OneToMany(targetEntity = Caracteristica.class, cascade = CascadeType.ALL, 
+				fetch = FetchType.LAZY, orphanRemoval =true)
+	@JoinColumn (name = "idPersonaje", referencedColumnName = "id")
 	private List<Caracteristica> caracteristicas;
 	
 	public Personaje() {}
 	
+	public List<Caracteristica> getCaracteristicas() {
+		return caracteristicas;
+	}
+
+	public void setCaracteristicas(List<Caracteristica> caracteristicas) {
+		this.caracteristicas = caracteristicas;
+	}
+
+	
+	
+	public Personaje(Integer id, String nombre, String aparicion, String tipo, List<Caracteristica> caracteristicas) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.aparicion = aparicion;
+		this.tipo = tipo;
+		this.caracteristicas = caracteristicas;
+	}
+
 	public Personaje(Integer id, String nombre, String aparicion, String tipo) {
 		super();
 		this.id = id;

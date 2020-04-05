@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.generation20.parsonajesapi.error.PersonajeNotFoundException;
+import com.generation20.parsonajesapi.molde.Caracteristica;
 import com.generation20.parsonajesapi.molde.Personaje;
+import com.generation20.parsonajesapi.service.CaracteristicaService;
 import com.generation20.parsonajesapi.service.PersonajeService;
 
 //Configurar el bean para que pueda ser alcanzado como un tendedor de aplicacion
@@ -25,6 +29,8 @@ public class PersonajeController {
 
 	@Autowired
 	private PersonajeService service;
+	@Autowired
+	private CaracteristicaService caracteristicaService;
 	
 	@GetMapping
 	public List<Personaje> getPersonajes(){
@@ -49,5 +55,17 @@ public class PersonajeController {
 	public ResponseEntity<Void> deletePersonaje(@PathVariable("id") Integer id){
 		service.remove(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping("/{id}/caracteristicas")
+	public ResponseEntity<List<Caracteristica>> getCaracteristica(@PathVariable("id") Integer id){
+		return new ResponseEntity<>(
+				caracteristicaService.getByIdPersonaje(id), HttpStatus.OK);
+	}
+	
+	@PostMapping("/{id}/caracteristicas")
+	public ResponseEntity<Caracteristica> crearCaracteristica(@PathVariable("id") Integer id, @RequestBody Caracteristica caracteristica) throws JsonProcessingException{
+		System.out.println(new ObjectMapper().writeValueAsString(caracteristica));
+		return new ResponseEntity<Caracteristica>(caracteristicaService.save(id, caracteristica), HttpStatus.OK);
 	}
 }
